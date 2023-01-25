@@ -2,14 +2,14 @@
 
 namespace App\Command;
 
-use App\Character\Character;
 use App\FightResult;
 use App\GameApplication;
-use Symfony\Component\Console\Attribute\AsCommand;
+use App\Character\Character;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand('app:game:play')]
 class GameCommand extends Command
@@ -91,6 +91,8 @@ class GameCommand extends Command
         $io->writeln('Total Rounds: ' . $fightResult->getRounds());
         $io->writeln('Damage dealt: ' . $fightResult->getDamageDealt());
         $io->writeln('Damage received: ' . $fightResult->getDamageReceived());
+        $io->writeln('XP: ' . $player->getXp());
+        $io->writeln('Final Level: ' . $player->getLevel());
         $io->writeln('Exhausted Turns: ' . $fightResult->getExhaustedTurns());
         $io->writeln('------------------------------');
     }
