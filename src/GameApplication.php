@@ -4,20 +4,27 @@ namespace App;
 
 use App\Character\Character;
 use App\Builder\CharacterBuilder;
+use App\Event\FightStartingEvent;
 use App\Observer\GameObserverInterface;
 use App\Builder\CharacterBuilderFactory;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GameApplication
 {
     /** @var GameObserverInterface[] */
     private array $observers = [];
 
-    public function __construct(private CharacterBuilderFactory $characterBuilderFactory)
+    public function __construct(
+        private CharacterBuilderFactory $characterBuilderFactory,
+        private EventDispatcherInterface $eventDispatcher,
+    )
     {
     }    
 
     public function play(Character $player, Character $ai): FightResult
     {
+        $this->eventDispatcher->dispatch(new FightStartingEvent($player, $ai));
+
         $player->rest();
 
         $fightResult = new FightResult();
